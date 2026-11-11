@@ -49,7 +49,7 @@
 }
 
 .lede {
-  max-width: 30ch;
+  max-width: 42ch;
   margin: 28px auto 0;
   color: var(--muted);
   font-size: clamp(18px, 2.4vw, 22px);

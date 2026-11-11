@@ -4,7 +4,7 @@ My personal link shortener. I can change where a link points at any time, and th
 
 [Live page](https://axlz.me/about) · Bun · Elysia · Drizzle · Turso · React
 
-![The admin](docs/admin.png)
+[![The About page, with the admin inside a tablet frame](docs/about.webp)](https://axlz.me/about)
 
 ## What it does
 
