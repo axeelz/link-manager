@@ -64,4 +64,5 @@ jobs:
           script: |
             cd ${{ env.DEPLOY_PATH }}
             printf '%s\n' "$ENV_FILE" > .env
+            chmod 600 .env
             TAG=${{ github.sha }} docker compose up -d --pull always --wait
