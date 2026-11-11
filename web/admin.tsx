@@ -474,7 +474,7 @@ function Activity({ visits: { daily, recent } }: { visits: Visits }) {
               <span>
                 {[
                   visit.device,
-                  visit.country ?? visit.language,
+                  visit.location ?? visit.language,
                   URL.parse(visit.referrer ?? "")?.host,
                 ]
                   .filter(Boolean)

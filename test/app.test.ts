@@ -36,23 +36,23 @@ describe("redirects", () => {
     expect(await visitCount(link!.id)).toBe(1);
   });
 
-  it("reads the device and country of v1 and v2 visits", async () => {
-    const { data: link } = await api.links.post({ url: "https://example.com" });
-    const userAgent = BROWSER["user-agent"];
-    await db.insert(visits).values([
-      {
-        linkId: link!.id,
-        userAgent: JSON.stringify({ ua: userAgent }),
-        location: JSON.stringify({ country: "FR" }),
-        createdAt: Date.parse("2024-04-18") / 1000,
-      },
-      { linkId: link!.id, userAgent },
-    ]);
+  it("reads the device and location of v1 and v2 visits", async () => {
+    const { data: link } = await api.links.post({
+      url: "https://example.com",
+      code: "location-test",
+    });
+    await db.insert(visits).values({
+      linkId: link!.id,
+      userAgent: JSON.stringify({ ua: BROWSER["user-agent"] }),
+      location: JSON.stringify({ city: "Paris", regionName: "Île-de-France", country: "France" }),
+      createdAt: Date.parse("2024-04-18") / 1000,
+    });
+    await open("location-test", { ...BROWSER, "cf-ipcountry": "DE", "cf-ipcity": "Berlin" });
 
     const { data } = await api.links({ id: link!.id }).visits.get();
     expect(data?.recent).toMatchObject([
-      { device: "Safari · macOS", country: null },
-      { device: "Safari · macOS", country: "FR" },
+      { device: "Safari · macOS", location: "Berlin, Germany" },
+      { device: "Safari · macOS", location: "Paris, France" },
     ]);
   });
 

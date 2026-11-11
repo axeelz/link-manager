@@ -21,7 +21,7 @@ export const visits = sqliteTable(
     linkId: integer("link_id")
       .references(() => links.id, { onDelete: "cascade" })
       .notNull(),
-    location: text("location"), // v1 only: JSON from a geolocation API
+    location: text("location"), // JSON with city and country
     language: text("language"),
     referrer: text("referrer"),
     userAgent: text("user_agent"), // v1 stored ua-parser-js JSON, v2 stores the raw header

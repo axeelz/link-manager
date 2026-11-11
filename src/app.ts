@@ -6,7 +6,7 @@ import { timingSafeEqual } from "node:crypto";
 import { CODE_PATTERN } from "./code";
 import { db } from "./db";
 import { links, visits } from "./schema";
-import { describeUserAgent, isHumanVisit } from "./visits";
+import { describeUserAgent, isHumanVisit, visitorLocation } from "./visits";
 
 const notFoundPage = await Bun.file(`${import.meta.dir}/../web/404.html`).text();
 
@@ -82,6 +82,7 @@ export const app = new Elysia()
           referrer: request.headers.get("referer"),
           language: request.headers.get("accept-language")?.split(/[,;]/)[0],
           userAgent: request.headers.get("user-agent"),
+          location: visitorLocation(request.headers),
         })
         .catch(console.error);
     }
@@ -176,9 +177,8 @@ export const app = new Elysia()
                 userAgent: sql<
                   string | null
                 >`iif(json_valid(${visits.userAgent}), ${visits.userAgent} ->> '$.ua', ${visits.userAgent})`,
-                country: sql<
-                  string | null
-                >`iif(json_valid(${visits.location}), ${visits.location} ->> '$.country', null)`,
+                city: sql<string | null>`${visits.location} ->> '$.city'`,
+                country: sql<string | null>`${visits.location} ->> '$.country'`,
               })
               .from(visits)
               .where(eq(visits.linkId, id))
@@ -193,9 +193,10 @@ export const app = new Elysia()
           ]);
           return {
             daily,
-            recent: recent.map(({ userAgent, ...visit }) => ({
+            recent: recent.map(({ userAgent, city, country, ...visit }) => ({
               ...visit,
               device: describeUserAgent(userAgent),
+              location: [city, country].filter(Boolean).join(", ") || null,
             })),
           };
         },
