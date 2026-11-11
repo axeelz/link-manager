@@ -13,19 +13,19 @@ export const links = sqliteTable("links", {
   createdAt,
 });
 
-// The table is still named "redirects" from v1, renaming it is not worth a data migration.
 export const visits = sqliteTable(
-  "redirects",
+  "visits",
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
     linkId: integer("link_id")
       .references(() => links.id, { onDelete: "cascade" })
       .notNull(),
-    location: text("location"), // JSON with city and country
+    city: text("city"),
+    country: text("country"),
     language: text("language"),
     referrer: text("referrer"),
-    userAgent: text("user_agent"), // v1 stored ua-parser-js JSON, v2 stores the raw header
+    userAgent: text("user_agent"),
     createdAt,
   },
-  (table) => [index("redirects_link_id_created_at_idx").on(table.linkId, table.createdAt)],
+  (table) => [index("visits_link_id_created_at_idx").on(table.linkId, table.createdAt)],
 );

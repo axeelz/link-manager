@@ -2,8 +2,6 @@ import { treaty } from "@elysiajs/eden";
 import { describe, expect, it } from "bun:test";
 
 import { app } from "../src/app";
-import { db } from "../src/db";
-import { visits } from "../src/schema";
 
 const BROWSER = {
   "user-agent":
@@ -36,24 +34,15 @@ describe("redirects", () => {
     expect(await visitCount(link!.id)).toBe(1);
   });
 
-  it("reads the device and location of v1 and v2 visits", async () => {
+  it("describes the device and location of a visit", async () => {
     const { data: link } = await api.links.post({
       url: "https://example.com",
       code: "location-test",
     });
-    await db.insert(visits).values({
-      linkId: link!.id,
-      userAgent: JSON.stringify({ ua: BROWSER["user-agent"] }),
-      location: JSON.stringify({ city: "Paris", regionName: "Île-de-France", country: "France" }),
-      createdAt: Date.parse("2024-04-18") / 1000,
-    });
     await open("location-test", { ...BROWSER, "cf-ipcountry": "DE", "cf-ipcity": "Berlin" });
 
     const { data } = await api.links({ id: link!.id }).visits.get();
-    expect(data?.recent).toMatchObject([
-      { device: "Safari · macOS", location: "Berlin, Germany" },
-      { device: "Safari · macOS", location: "Paris, France" },
-    ]);
+    expect(data?.recent).toMatchObject([{ device: "Safari · macOS", location: "Berlin, Germany" }]);
   });
 
   it("answers unknown codes with a 404 page", async () => {

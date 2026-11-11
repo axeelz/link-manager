@@ -50,14 +50,15 @@ describe("visitorLocation", () => {
 
   it("decodes the UTF-8 city Cloudflare sends", () => {
     const city = Buffer.from("Zürich").toString("latin1");
-    expect(locate({ "cf-ipcountry": "CH", "cf-ipcity": city })).toBe(
-      JSON.stringify({ city: "Zürich", country: "Switzerland" }),
-    );
+    expect(locate({ "cf-ipcountry": "CH", "cf-ipcity": city })).toEqual({
+      city: "Zürich",
+      country: "Switzerland",
+    });
   });
 
   it("ignores unknown and Tor countries", () => {
-    expect(locate({ "cf-ipcountry": "XX" })).toBeNull();
-    expect(locate({ "cf-ipcountry": "T1" })).toBeNull();
-    expect(locate({})).toBeNull();
+    expect(locate({ "cf-ipcountry": "XX" })).toEqual({});
+    expect(locate({ "cf-ipcountry": "T1" })).toEqual({});
+    expect(locate({})).toEqual({});
   });
 });

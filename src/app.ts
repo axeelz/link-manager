@@ -82,7 +82,7 @@ export const app = new Elysia()
           referrer: request.headers.get("referer"),
           language: request.headers.get("accept-language")?.split(/[,;]/)[0],
           userAgent: request.headers.get("user-agent"),
-          location: visitorLocation(request.headers),
+          ...visitorLocation(request.headers),
         })
         .catch(console.error);
     }
@@ -173,12 +173,9 @@ export const app = new Elysia()
                 createdAt: visits.createdAt,
                 referrer: visits.referrer,
                 language: visits.language,
-                // v1 rows hold JSON, v2 rows the raw value
-                userAgent: sql<
-                  string | null
-                >`iif(json_valid(${visits.userAgent}), ${visits.userAgent} ->> '$.ua', ${visits.userAgent})`,
-                city: sql<string | null>`${visits.location} ->> '$.city'`,
-                country: sql<string | null>`${visits.location} ->> '$.country'`,
+                userAgent: visits.userAgent,
+                city: visits.city,
+                country: visits.country,
               })
               .from(visits)
               .where(eq(visits.linkId, id))

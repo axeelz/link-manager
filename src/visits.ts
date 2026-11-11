@@ -32,13 +32,13 @@ export function describeUserAgent(userAgent: string | null) {
 const regions = new Intl.DisplayNames(["en"], { type: "region" });
 
 /**
- * Visitor city and country from Cloudflare's location headers, as JSON shaped like v1's.
- * Unknown (XX) and Tor (T1) countries give null.
+ * Visitor city and country from Cloudflare's location headers.
+ * Unknown (XX) and Tor (T1) countries are left out.
  */
 export function visitorLocation(headers: Headers) {
   const code = headers.get("cf-ipcountry");
-  if (!code || !/^[A-Z]{2}$/.test(code) || code === "XX") return null;
+  if (!code || !/^[A-Z]{2}$/.test(code) || code === "XX") return {};
   // Cloudflare sends UTF-8, which the Fetch API reads as Latin-1
-  const city = Buffer.from(headers.get("cf-ipcity") ?? "", "latin1").toString() || undefined;
-  return JSON.stringify({ city, country: regions.of(code) });
+  const city = Buffer.from(headers.get("cf-ipcity") ?? "", "latin1").toString() || null;
+  return { city, country: regions.of(code) };
 }
