@@ -184,24 +184,6 @@ main {
   }
 }
 
-.live::before {
-  content: "";
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-right: 8px;
-  border-radius: 50%;
-  background: #00ba7c;
-  vertical-align: 2px;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  50% {
-    opacity: 0.3;
-  }
-}
-
 .demo-count {
   margin-top: 8px;
   font-size: clamp(96px, 22vw, 224px);
