@@ -1,32 +1,17 @@
-FROM oven/bun AS build
+FROM oven/bun:1.4.4-slim
 
 WORKDIR /app
-
-# Cache packages installation
-COPY package.json package.json
-COPY bun.lock bun.lock
-
-RUN bun install
-
-COPY ./src ./src
-
 ENV NODE_ENV=production
 
-RUN bun build \
-	--compile \
-	--minify-whitespace \
-	--minify-syntax \
-	--outfile server \
-	src/index.ts
+COPY package.json bun.lock ./
+RUN bun install --production --frozen-lockfile
 
-FROM gcr.io/distroless/base
+COPY src src
+COPY web web
+COPY migrations migrations
 
-WORKDIR /app
-
-COPY --from=build /app/server server
-
-ENV NODE_ENV=production
-
-CMD ["./server"]
-
+USER bun
 EXPOSE 3500
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \
+  CMD ["bun", "-e", "const r = await fetch('http://localhost:3500/api/health'); process.exit(r.ok ? 0 : 1)"]
+CMD ["bun", "src/index.ts"]
