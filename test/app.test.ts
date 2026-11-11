@@ -42,7 +42,9 @@ describe("redirects", () => {
     await open("location-test", { ...BROWSER, "cf-ipcountry": "DE", "cf-ipcity": "Berlin" });
 
     const { data } = await api.links({ id: link!.id }).visits.get();
-    expect(data?.recent).toMatchObject([{ device: "Safari · macOS", location: "Berlin, Germany" }]);
+    expect(data?.recent).toMatchObject([
+      { device: "Safari · macOS", city: "Berlin", country: "DE" },
+    ]);
   });
 
   it("answers unknown codes with a 404 page", async () => {

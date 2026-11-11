@@ -190,10 +190,9 @@ export const app = new Elysia()
           ]);
           return {
             daily,
-            recent: recent.map(({ userAgent, city, country, ...visit }) => ({
+            recent: recent.map(({ userAgent, ...visit }) => ({
               ...visit,
               device: describeUserAgent(userAgent),
-              location: [city, country].filter(Boolean).join(", ") || null,
             })),
           };
         },

@@ -52,7 +52,7 @@ describe("visitorLocation", () => {
     const city = Buffer.from("Zürich").toString("latin1");
     expect(locate({ "cf-ipcountry": "CH", "cf-ipcity": city })).toEqual({
       city: "Zürich",
-      country: "Switzerland",
+      country: "CH",
     });
   });
 

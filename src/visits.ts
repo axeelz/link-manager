@@ -29,16 +29,14 @@ export function describeUserAgent(userAgent: string | null) {
   return [browser.name, os.name].filter(Boolean).join(" · ") || null;
 }
 
-const regions = new Intl.DisplayNames(["en"], { type: "region" });
-
 /**
- * Visitor city and country from Cloudflare's location headers.
+ * Visitor city and ISO country code from Cloudflare's location headers.
  * Unknown (XX) and Tor (T1) countries are left out.
  */
 export function visitorLocation(headers: Headers) {
-  const code = headers.get("cf-ipcountry");
-  if (!code || !/^[A-Z]{2}$/.test(code) || code === "XX") return {};
+  const country = headers.get("cf-ipcountry");
+  if (!country || !/^[A-Z]{2}$/.test(country) || country === "XX") return {};
   // Cloudflare sends UTF-8, which the Fetch API reads as Latin-1
   const city = Buffer.from(headers.get("cf-ipcity") ?? "", "latin1").toString() || null;
-  return { city, country: regions.of(code) };
+  return { city, country };
 }

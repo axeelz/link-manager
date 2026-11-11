@@ -43,6 +43,13 @@
       "when": 1794408325424,
       "tag": "0005_visits",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1794412255285,
+      "tag": "0006_visits_country_code",
+      "breakpoints": true
     }
   ]
 }

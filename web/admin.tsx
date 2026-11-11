@@ -22,6 +22,10 @@ const codeRegex = new RegExp(CODE_PATTERN);
 const number = new Intl.NumberFormat("en").format;
 // No autofocus on touch screens, it would open the keyboard on arrival
 const finePointer = matchMedia("(pointer: fine)").matches;
+const regions = new Intl.DisplayNames(["en"], { type: "region" });
+// Each letter of an ISO country code maps to a regional indicator symbol, which pair into a flag
+const flag = (country: string) =>
+  String.fromCodePoint(...[...country].map((letter) => 0x1f1a5 + letter.charCodeAt(0)));
 const pretty = (url: string) => url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
 
 const UNITS = [
@@ -471,21 +475,28 @@ function Activity({ visits: { daily, recent } }: { visits: Visits }) {
               >
                 {ago(visit.createdAt)}
               </time>
-              <span>
-                {[
-                  visit.device,
-                  visit.location,
-                  visit.language,
-                  URL.parse(visit.referrer ?? "")?.host,
-                ]
-                  .filter(Boolean)
-                  .join(" · ") || "Unknown"}
-              </span>
+              <VisitDetails visit={visit} />
             </li>
           ))}
         </ol>
       )}
     </section>
+  );
+}
+
+function VisitDetails({ visit }: { visit: Visits["recent"][number] }) {
+  const host = URL.parse(visit.referrer ?? "")?.host;
+  return (
+    <span className="details">
+      {visit.device && <span>{visit.device}</span>}
+      {visit.country && (
+        <span title={regions.of(visit.country)}>
+          {flag(visit.country)} {visit.city ?? regions.of(visit.country)}
+        </span>
+      )}
+      {visit.language && <span>{visit.language}</span>}
+      {host && <span>via {host}</span>}
+    </span>
   );
 }
 

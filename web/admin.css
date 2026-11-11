@@ -389,6 +389,18 @@ summary:active {
     color: var(--muted);
     font-variant-numeric: tabular-nums;
   }
+  /* The device leads, the rest is secondary */
+  .details > span + span {
+    color: var(--muted);
+
+    &::before {
+      content: "·";
+      margin: 0 6px;
+    }
+  }
+  .details:empty::before {
+    content: "Unknown";
+  }
 }
 
 .actions {
