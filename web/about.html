@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <title>axlz.me · My personal link manager</title>
+    <meta
+      name="description"
+      content="Short links I can edit forever, and visit counts I can trust. One Bun process, open source."
+    />
+    <meta property="og:title" content="axlz.me · My personal link manager" />
+    <meta
+      property="og:description"
+      content="Short links I can edit forever, and visit counts I can trust."
+    />
+    <link rel="icon" href="./favicon.svg" />
+    <link rel="stylesheet" href="./about.css" />
+  </head>
+  <body>
+    <nav class="nav">
+      <a class="nav-home" href="https://axeelz.com">← axeelz.com</a>
+      <a class="button ghost" href="https://github.com/axeelz/link-manager">Source</a>
+    </nav>
+
+    <header class="hero">
+      <p class="eyebrow">axlz.me</p>
+      <h1>My personal<br />link manager.</h1>
+      <p class="lede">Short links I can edit forever, and visit counts I can actually trust.</p>
+    </header>
+
+    <div class="stage" inert>
+      <div class="device">
+        <div class="screen">
+          <div class="page">
+            <div class="top">
+              <h1>axlz.me</h1>
+              <p class="meta">24 links · 1,284 visits</p>
+              <span class="text-button">Sign out</span>
+            </div>
+            <div class="command">
+              <div class="input">https://bun.sh/blog/bun-v1.3 bun</div>
+              <p class="hint">Press ↵ to create <strong>axlz.me/bun</strong></p>
+            </div>
+            <ul class="links">
+              <li class="row">
+                <details>
+                  <summary>
+                    <span class="code">/gh</span
+                    ><span class="count">312 <span class="unit">visits</span></span
+                    ><span class="url">github.com/axeelz</span><span class="when">2h ago</span>
+                  </summary>
+                </details>
+              </li>
+              <li class="row">
+                <details open>
+                  <summary>
+                    <span class="code">/cv</span
+                    ><span class="count">187 <span class="unit">visits</span></span
+                    ><span class="url">axeelz.com/resume.pdf</span><span class="when">9h ago</span>
+                  </summary>
+                  <div class="panel">
+                    <div class="activity">
+                      <p class="hint">41 visits in the last 30 days</p>
+                      <div class="chart">
+                        <span style="height: 10%"></span
+                        ><span style="height: 0%" data-empty="true"></span
+                        ><span style="height: 20%"></span><span style="height: 10%"></span
+                        ><span style="height: 0%" data-empty="true"></span
+                        ><span style="height: 30%"></span><span style="height: 20%"></span
+                        ><span style="height: 0%" data-empty="true"></span
+                        ><span style="height: 10%"></span><span style="height: 40%"></span
+                        ><span style="height: 30%"></span><span style="height: 10%"></span
+                        ><span style="height: 0%" data-empty="true"></span
+                        ><span style="height: 20%"></span><span style="height: 50%"></span
+                        ><span style="height: 100%"></span><span style="height: 70%"></span
+                        ><span style="height: 30%"></span><span style="height: 20%"></span
+                        ><span style="height: 10%"></span
+                        ><span style="height: 0%" data-empty="true"></span
+                        ><span style="height: 20%"></span><span style="height: 30%"></span
+                        ><span style="height: 10%"></span><span style="height: 40%"></span
+                        ><span style="height: 20%"></span
+                        ><span style="height: 0%" data-empty="true"></span
+                        ><span style="height: 30%"></span><span style="height: 60%"></span
+                        ><span style="height: 40%"></span>
+                      </div>
+                      <ol class="visits">
+                        <li><time>9h ago</time><span>Safari · iOS · fr-FR · linkedin.com</span></li>
+                        <li><time>yesterday</time><span>Chrome · macOS · en-US · t.co</span></li>
+                      </ol>
+                    </div>
+                  </div>
+                </details>
+              </li>
+              <li class="row">
+                <details>
+                  <summary>
+                    <span class="code">/talk</span
+                    ><span class="count">96 <span class="unit">visits</span></span
+                    ><span class="url">youtube.com/watch?v=elysia-bun-paris</span
+                    ><span class="when">1d ago</span>
+                  </summary>
+                </details>
+              </li>
+              <li class="row">
+                <details>
+                  <summary>
+                    <span class="code">/drizzle</span
+                    ><span class="count">58 <span class="unit">visits</span></span
+                    ><span class="url">orm.drizzle.team/docs/overview</span
+                    ><span class="when">3d ago</span>
+                  </summary>
+                </details>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <section class="features">
+        <article>
+          <h2>Paste, press enter.</h2>
+          <p>
+            A URL in the bar becomes a short link, already copied. Add a word after it to pick the
+            code.
+          </p>
+        </article>
+        <article>
+          <h2>Edit forever.</h2>
+          <p>Destinations can change at any time, so a link shared years ago never has to break.</p>
+        </article>
+        <article>
+          <h2>Humans, not bots.</h2>
+          <p>
+            Link previews, prefetches, crawlers and my own clicks are left out. What’s left is
+            people.
+          </p>
+        </article>
+      </section>
+
+      <section class="demo" id="demo" hidden>
+        <p class="eyebrow live">Live</p>
+        <p class="demo-count"><span id="demo-count">0</span></p>
+        <p class="demo-label">visits to <strong>axlz.me/demo</strong></p>
+        <a class="button" href="/demo" target="_blank">Open the demo ↗</a>
+        <p class="demo-note">
+          Open it, come back, watch the number move. Bots and my own visits don’t count.
+        </p>
+      </section>
+
+      <section class="how">
+        <h2>How it works</h2>
+        <p class="how-lede">One Bun process serves the redirects, the API and these pages.</p>
+        <dl class="stack">
+          <div>
+            <dt>Bun</dt>
+            <dd>Runtime, test runner and bundler for the pages, all in one.</dd>
+          </div>
+          <div>
+            <dt>Elysia</dt>
+            <dd>Routes and validation. Eden turns them into a typed client, no codegen.</dd>
+          </div>
+          <div>
+            <dt>Drizzle</dt>
+            <dd>Typed SQL and migrations, applied automatically at startup.</dd>
+          </div>
+          <div>
+            <dt>Turso</dt>
+            <dd>SQLite at the edge in production, a local file in development.</dd>
+          </div>
+          <div>
+            <dt>React</dt>
+            <dd>The admin, with plain CSS and no component library.</dd>
+          </div>
+        </dl>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <a href="https://github.com/axeelz/link-manager">github.com/axeelz/link-manager</a>
+      <span>Made by <a href="https://axeelz.com">Axel</a></span>
+    </footer>
+
+    <script type="module" src="./about.ts"></script>
+  </body>
+</html>

@@ -1,8 +1,11 @@
-import { createApp } from "./app";
-import { env } from "./config/env";
+import about from "../web/about.html";
+import admin from "../web/admin.html";
+import { app } from "./app";
 
-const app = createApp().listen(env.PORT);
+const server = Bun.serve({
+  port: 3500,
+  routes: { "/about": about, "/admin": admin },
+  fetch: app.fetch,
+});
 
-console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`);
-
-export type App = typeof app;
+console.log(`Link manager running on ${server.url}`);

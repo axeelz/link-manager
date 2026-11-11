@@ -1,0 +1,376 @@
+/* The device frame reuses the admin styles */
+@import "./admin.css";
+
+.nav,
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1064px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.nav-home,
+.footer {
+  color: var(--muted);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .nav-home:hover,
+  .footer a:hover {
+    color: var(--fg);
+  }
+}
+
+.eyebrow {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 14px;
+}
+
+/* Hero */
+
+.hero {
+  padding: clamp(56px, 12vh, 128px) 16px 0;
+  text-align: center;
+
+  h1 {
+    margin-top: 16px;
+    font-size: clamp(48px, 11vw, 128px);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+}
+
+.lede {
+  max-width: 30ch;
+  margin: 28px auto 0;
+  color: var(--muted);
+  font-size: clamp(18px, 2.4vw, 22px);
+  text-wrap: balance;
+}
+
+/* The dashboard, tilted back in 3D, settles flat as it scrolls into view */
+
+.stage {
+  position: relative;
+  padding: clamp(48px, 8vw, 96px) 16px 0;
+  perspective: 1200px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 20% 0 -10%;
+    background: radial-gradient(
+      50% 50% at 50% 50%,
+      color-mix(in srgb, var(--accent) 22%, transparent),
+      transparent
+    );
+    pointer-events: none;
+  }
+}
+
+.device {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 34px;
+  background: #18191b;
+  box-shadow:
+    0 0 0 1px oklch(1 0 0 / 0.08) inset,
+    0 30px 60px -20px oklch(0 0 0 / 0.35),
+    0 80px 120px -40px oklch(0 0 0 / 0.3);
+  transform-origin: 50% 0;
+}
+
+.screen {
+  height: clamp(440px, 58vw, 600px);
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--bg);
+
+  .page {
+    padding-top: 12px;
+  }
+  .command {
+    position: static;
+    background: none;
+    backdrop-filter: none;
+
+    &::after {
+      content: none;
+    }
+  }
+  summary {
+    padding-right: 16px; /* the replica has no copy buttons */
+  }
+  .input {
+    display: flex;
+    align-items: center;
+    border-color: var(--accent);
+    background: var(--bg);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent);
+
+    &::after {
+      content: "";
+      width: 2px;
+      height: 1.2em;
+      margin-left: 1px;
+      background: var(--accent);
+      animation: blink 1.2s steps(1) infinite;
+    }
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Features */
+
+main {
+  max-width: 1064px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px 32px;
+  padding: clamp(80px, 12vw, 144px) 0;
+
+  article {
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  h2 {
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+  p {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 17px;
+  }
+}
+
+/* Live demo */
+
+.demo {
+  display: grid;
+  justify-items: center;
+  padding: clamp(64px, 10vw, 112px) 16px;
+  border-radius: 40px;
+  background: var(--subtle);
+  text-align: center;
+
+  &[hidden] {
+    display: none;
+  }
+  .button {
+    height: 44px;
+    margin-top: 32px;
+    padding: 0 22px;
+  }
+}
+
+.live::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: #00ba7c;
+  vertical-align: 2px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.demo-count {
+  margin-top: 8px;
+  font-size: clamp(96px, 22vw, 224px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+
+  span {
+    display: inline-block;
+  }
+}
+
+.demo-label {
+  font-size: clamp(18px, 2.4vw, 22px);
+  color: var(--muted);
+
+  strong {
+    color: var(--fg);
+  }
+}
+
+.demo-note {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* How it works */
+
+.how {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: clamp(80px, 12vw, 144px) 0;
+
+  h2 {
+    font-size: clamp(32px, 5vw, 44px);
+    letter-spacing: -0.025em;
+  }
+}
+
+.how-lede {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.stack {
+  margin: 32px 0 0;
+
+  div {
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    gap: 16px;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+  }
+  dt {
+    font-weight: 700;
+  }
+  dd {
+    margin: 0;
+    color: var(--muted);
+  }
+}
+
+.footer {
+  border-top: 1px solid var(--line);
+  padding-block: 32px 48px;
+}
+
+/* Motion: compositor only (transform, opacity), skipped where unwanted */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* On load the headline leads, the rest follows */
+  .hero > * {
+    animation: enter 1s var(--ease) both;
+  }
+  .hero h1 {
+    --rise: 24px;
+    animation-delay: 80ms;
+  }
+  .lede {
+    animation-delay: 180ms;
+  }
+  .stage {
+    animation: fade-in 1s ease 320ms both;
+  }
+}
+
+/* On scroll, skipped where unsupported */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero {
+      animation: lift linear both;
+      animation-timeline: scroll();
+      animation-range: 0 70vh;
+    }
+    .stage::before {
+      animation: fade-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 50%;
+    }
+    .device {
+      view-timeline: --device;
+      animation: settle linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 60%;
+    }
+    /* The chart inside the replica fills up as the device lands */
+    .screen .chart span {
+      animation: grow linear both;
+      animation-timeline: --device;
+      animation-range: cover 30% cover 50%;
+      animation-range: cover calc(25% + sibling-index() * 0.5%) cover
+        calc(40% + sibling-index() * 0.5%);
+    }
+    .features article,
+    .demo,
+    .how > * {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 80%;
+    }
+    .features article:nth-child(2) {
+      animation-range: entry 10% entry 90%;
+    }
+    .features article:nth-child(3) {
+      animation-range: entry 20% entry 100%;
+    }
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--rise, 12px));
+  }
+}
+
+@keyframes grow {
+  from {
+    scale: 1 0;
+  }
+}
+
+@keyframes lift {
+  to {
+    opacity: 0.2;
+    transform: translateY(-80px) scale(0.96);
+  }
+}
+
+@keyframes settle {
+  from {
+    transform: rotateX(28deg) scale(0.9) translateY(40px);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+}
+
+@media (max-width: 560px) {
+  .stack div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
