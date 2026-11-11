@@ -90,7 +90,11 @@ export const app = new Elysia()
   })
   .group("/api", (api) =>
     api
-      .get("/health", () => "ok")
+      // Fails when the database is unreachable, since redirects need it
+      .get("/health", async () => {
+        await db.run(sql`select 1`);
+        return "ok";
+      })
       .get(
         "/demo",
         async ({ status }) => (await linksWithVisits(eq(links.code, "demo")).get()) ?? status(404),
