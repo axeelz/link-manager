@@ -1,6 +1,6 @@
 # axlz.me
 
-My personal link shortener. Short links I can edit forever, and visit counts I can trust.
+My personal link shortener. I can change where a link points at any time, and the visit counts leave out bots, link previews and my own clicks.
 
 [Live page](https://axlz.me/about) · Bun · Elysia · Drizzle · Turso · React
 
@@ -8,15 +8,15 @@ My personal link shortener. Short links I can edit forever, and visit counts I c
 
 ## What it does
 
-- **Paste, press enter.** A URL in the command bar becomes a short link, already in the clipboard. `https://example.com docs` picks the code.
-- **Edit forever.** Redirects are temporary (302), so changing a destination is never hidden by a browser cache.
-- **Count humans, not bots.** A visit is recorded only when it looks like a person opening the page:
-  - the browser declares a page load (`Sec-Fetch-Mode: navigate`), which scripts and most crawlers don't send,
-  - it is not a prefetch or a link preview (`Sec-Purpose`, `Purpose`),
-  - the User-Agent is not a known bot ([isbot](https://github.com/omrilotan/isbot)),
-  - the browser is not signed in to the admin, so my own clicks never count.
+- **Paste, press enter.** A URL in the command bar becomes a short link and lands in the clipboard. Type a word after the URL to pick the code, like `https://example.com docs`.
+- **Change a link any time.** Redirects are temporary (302). Browsers don't cache them, so a new destination works on the next click.
+- **Only people count.** The server records a visit only when:
+  - the browser says it's loading a page (`Sec-Fetch-Mode: navigate`), which scripts and most crawlers don't send,
+  - it isn't a prefetch or a link preview (`Sec-Purpose`, `Purpose`),
+  - the User-Agent isn't a known bot ([isbot](https://github.com/omrilotan/isbot)),
+  - the browser isn't signed in to the admin, so my own clicks never count.
 
-The rules live in [`src/visits.ts`](src/visits.ts) and are covered by [`test/visits.test.ts`](test/visits.test.ts).
+The rules are in [`src/visits.ts`](src/visits.ts), with tests in [`test/visits.test.ts`](test/visits.test.ts).
 
 ## How it's built
 
@@ -24,14 +24,14 @@ One Bun process serves everything:
 
 ```
 GET /:code        redirect, then record the visit without delaying the response
-/api/*            Elysia routes, validated and typed end to end with Eden
-/admin, /about    HTML pages bundled by Bun at startup (React for the admin, plain TS for About)
+/api/*            Elysia routes, with request validation and a typed client (Eden)
+/admin, /about    HTML pages Bun bundles at startup (React for the admin, plain TS for About)
 ```
 
-- **No framework server, no component library.** The admin is a single React file with plain CSS.
-- **Stateless auth.** The session cookie holds an HMAC derived from the password. Changing the password signs every device out.
+- **No framework, no component library.** The admin is one React file and plain CSS.
+- **No session store.** The cookie holds an HMAC of the password. Change the password and every device signs out.
 - **Migrations run at startup.** Drizzle applies anything new in `migrations/` before the server listens.
-- **Zero config locally.** Without environment variables, the app uses a SQLite file and the password `admin`. Tests always use a throwaway database.
+- **Nothing to configure locally.** Without environment variables, the app uses a SQLite file and the password `admin`. Tests run on an in-memory database.
 
 ## Run it
 
@@ -44,7 +44,7 @@ bun run check      # types, lint, format
 
 ## Deploy
 
-Production needs three variables (see [`.env.example`](.env.example)):
+Production needs three variables (see [`.env.example`](.env.example)). Without the database URL or the password, the app refuses to start.
 
 | Variable               | Purpose                        |
 | ---------------------- | ------------------------------ |
@@ -52,6 +52,6 @@ Production needs three variables (see [`.env.example`](.env.example)):
 | `TURSO_AUTH_TOKEN`     | Turso token                    |
 | `PASSWORD`             | Admin password, use a long one |
 
-Every push to `main` runs the checks, builds a Docker image tagged with the commit, and restarts the container on the server, waiting for its health check. To roll back, run `TAG=<previous commit sha> docker compose up -d` on the server.
+Each push to `main` runs the checks, builds a Docker image tagged with the commit, and restarts the container on the server. The job fails if the new container doesn't pass its health check. To roll back, run `TAG=<previous commit sha> docker compose up -d` on the server.
 
-Schema changes go through `bun db:generate`, which writes a new SQL migration to commit.
+For a schema change, edit `src/schema.ts` and run `bun db:generate`. It writes a SQL migration to commit.
