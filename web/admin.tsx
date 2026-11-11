@@ -485,7 +485,7 @@ function Activity({ visits: { daily, recent } }: { visits: Visits }) {
 }
 
 function VisitDetails({ visit }: { visit: Visits["recent"][number] }) {
-  const host = URL.parse(visit.referrer ?? "")?.host;
+  const host = URL.parse(visit.referrer ?? "")?.host.replace(/^www\./, "");
   return (
     <span className="details">
       {visit.device && <span>{visit.device}</span>}
